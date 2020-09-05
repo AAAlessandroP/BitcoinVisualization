@@ -1,0 +1,29 @@
+# se qualcosa non funziona, è forse perchè compose usa i cont che già ha buildato, non li ricrea onTheFly dal dockerfile ogni volta
+# docker rm treni_web_1
+# docker rmi treni_web
+# docker-compose up
+version: "3.7"
+services:
+  backend:
+    build:
+      context: ./BTC_backend
+      target: debug
+    volumes: #lo tolgo se uso prod
+      - ./BTC_backend:/work #lo tolgo se uso prod
+    ports:
+      - "3000:3000"
+      # se è il js dell'utente a fare reqs, anche l'api va esposta fuori dal network
+  frontend:
+    build:
+      context: ./BTC_frontend
+    ports:
+      - 80
+  lb:
+    image: dockercloud/haproxy
+    ports:
+      - 80:80
+    links:
+      - frontend
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+# source of lb  https://wadehuang36.github.io/2017/06/02/Load-Balance-With-Docker-Compose.html
