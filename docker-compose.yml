@@ -26,4 +26,4 @@ services:
       - frontend
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-# source of lb  https://wadehuang36.github.io/2017/06/02/Load-Balance-With-Docker-Compose.html
+# https://wadehuang36.github.io/2017/06/02/Load-Balance-With-Docker-Compose.html
